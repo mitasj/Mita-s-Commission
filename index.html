@@ -4,12 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mita's Commission</title>
+  <!-- tema awal -->
   <link rel="stylesheet" href="style.css" id="theme-style">
 </head>
 <body>
 
   <header>
     <h1 id="title">Mita's Commission</h1>
+    <button id="logoutBtn" class="hidden">Logout</button>
     <div class="profile-pic" id="profilePic"></div>
   </header>
 
@@ -23,12 +25,39 @@
       <button id="akunBtn">Akun</button>
     </nav>
 
-    <section class="gallery" id="gallery">
-      <!-- Gambar akan dimuat via JS -->
+    <!-- Halaman Tokoku -->
+    <section id="tokokuPage" class="page hidden">
+      <h2>Tokoku</h2>
+      <p>Hubungi aku lewat WhatsApp ya!</p>
+      <a id="waLink" href="#" target="_blank">Chat Sekarang</a>
+    </section>
+
+    <!-- Halaman Price List -->
+    <section id="pricePage" class="page hidden">
+      <h2>Price List</h2>
+      <div id="priceList">
+        <!-- kamu isi sendiri harga di sini -->
+      </div>
+    </section>
+
+    <!-- Halaman Commission Done -->
+    <section id="commissionPage" class="page hidden">
+      <h2>Commission Done</h2>
+      <div id="gallery"></div>
+      <button id="addArtworkBtn" class="hidden">+</button>
+    </section>
+
+    <!-- Halaman Akun -->
+    <section id="akunPage" class="page hidden">
+      <h2>Akun</h2>
+      <p>Pilih akun yang ingin kamu kunjungi:</p>
+      <button id="igBtn">Instagram</button>
+      <button id="tiktokBtn">TikTok</button>
+      <button id="ytBtn">YouTube</button>
     </section>
   </main>
 
-  <!-- Pop-up Password -->
+  <!-- Popup Password -->
   <div id="passwordPopup" class="popup hidden">
     <div class="popup-content">
       <p>Masukkan password admin:</p>
@@ -37,11 +66,18 @@
     </div>
   </div>
 
+  <!-- Popup Download -->
+  <div id="downloadPopup" class="popup hidden">
+    <div class="popup-content blur">
+      <p>Masukkan sandi untuk download:</p>
+      <input type="password" id="downloadPassword" placeholder="Sandi..." />
+      <button id="confirmDownloadBtn">Download</button>
+      <button id="cancelDownloadBtn">Batal</button>
+    </div>
+  </div>
+
   <!-- Emot animasi -->
   <div id="emoji" class="emoji"></div>
-
-  <!-- Tombol logout (hanya muncul di admin) -->
-  <button id="logoutBtn" class="hidden">Logout</button>
 
   <script src="script.js"></script>
 </body>
