@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mita's Commission</title>
+  <link rel="stylesheet" href="style.css" id="theme-style">
+</head>
+<body>
+
+  <header>
+    <h1 id="title">Mita's Commission</h1>
+    <div class="profile-pic" id="profilePic"></div>
+  </header>
+
+  <main>
+    <section class="main-image" id="mainImage"></section>
+
+    <nav class="menu">
+      <button id="tokokuBtn">Tokoku</button>
+      <button id="priceBtn">Price List</button>
+      <button id="commissionBtn">Commission Done</button>
+      <button id="akunBtn">Akun</button>
+    </nav>
+
+    <section class="gallery" id="gallery">
+      <!-- Gambar akan dimuat via JS -->
+    </section>
+  </main>
+
+  <!-- Pop-up Password -->
+  <div id="passwordPopup" class="popup hidden">
+    <div class="popup-content">
+      <p>Masukkan password admin:</p>
+      <input type="password" id="adminPassword" placeholder="Password..." />
+      <button id="loginBtn">Masuk</button>
+    </div>
+  </div>
+
+  <!-- Emot animasi -->
+  <div id="emoji" class="emoji"></div>
+
+  <!-- Tombol logout (hanya muncul di admin) -->
+  <button id="logoutBtn" class="hidden">Logout</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
