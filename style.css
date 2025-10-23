@@ -1,116 +1,77 @@
-/* === Style Umum === */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-  backdrop-filter: blur(10px);
-  color: #333;
-  text-align: center;
-  transition: background 1s ease, color 1s ease;
+/* style.css — Pembeli (ungu - pink soft) */
+:root{
+  --bg1: #f3e2ff;
+  --bg2: #eacbff;
+  --text: #111;
+  --card: rgba(255,255,255,0.85);
+  --muted: #666;
+  --accent: #fff;
 }
 
-/* === Header === */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  z-index: 1000;
+/* basic reset */
+*{box-sizing:border-box;font-family: "Poppins", sans-serif}
+body{
+  margin:0;background: linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);
+  transition: background 1s ease;
 }
-
-#title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #2c2c2c;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+header{
+  position:fixed;left:0;right:0;top:0;height:70px;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;z-index:50;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
 }
+.profile-circle{position:absolute;right:16px;width:46px;height:46px;border-radius:50%;
+ background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer}
+#siteTitle{font-size:20px;margin:0;padding:0;cursor:pointer}
 
-#title:active {
-  transform: scale(0.95);
-}
+/* logout small button (hidden by default) */
+#logoutBtn{position:absolute;right:72px;top:14px;padding:6px 10px;border-radius:10px;border:none;background:rgba(0,0,0,0.06);display:none}
 
-#logoutBtn {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  background: rgba(255,255,255,0.4);
-  border: none;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  display: none;
-}
+/* main content */
+main{padding-top:96px;max-width:720px;margin:0 auto}
+.welcome-box{width:88%;max-width:520px;height:260px;margin:14px auto;border-radius:12px;background:var(--card);display:flex;align-items:center;justify-content:center}
+.welcome-placeholder{color:var(--muted);font-weight:600}
 
-.profile-pic {
-  position: absolute;
-  left: 15px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.7);
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
-}
+/* menu buttons */
+.main-menu{display:flex;flex-direction:column;gap:18px;padding:20px 0;align-items:center}
+.main-menu button{width:86%;max-width:520px;padding:16px;border-radius:28px;border:none;background:#fff;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
 
-/* === Main === */
-main {
-  padding-top: 90px;
-}
+/* pages */
+.page{display:none;padding:18px}
+.page.active{display:block;animation:fadeIn .45s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.main-image {
-  width: 100%;
-  height: 200px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 20px;
-  margin-bottom: 20px;
-  backdrop-filter: blur(10px);
-}
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:8px}
+.gallery img{width:100%;height:120px;object-fit:cover;border-radius:12px;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,23,0.04);transition:transform .2s}
+.gallery img:hover{transform:scale(1.03)}
 
-/* === Menu === */
-.menu {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 25px;
-}
+/* add (hidden in buyer) */
+.round-add{position:fixed;right:18px;bottom:24px;width:56px;height:56px;border-radius:50%;font-size:28px;border:none;background:#fff;display:none;box-shadow:0 10px 25px rgba(0,0,0,0.12)}
 
-.menu button {
-  background: rgba(255,255,255,0.4);
-  border: none;
-  border-radius: 15px;
-  padding: 10px 18px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+/* popup */
+.popup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.24);backdrop-filter:blur(6px);z-index:200}
+.popup-card{background:rgba(255,255,255,0.7);padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);width:280px;text-align:center}
+.blur-card{backdrop-filter:blur(10px)}
 
-.menu button:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.6);
-}
+/* admin panel */
+.admin-panel{max-width:860px;overflow:auto}
 
-/* === Halaman === */
-.page {
-  display: none;
-  animation: fadeIn 0.5s ease;
-}
+/* small helpers */
+.hidden{display:none}
+.btn{padding:8px 12px;border-radius:8px;border:none;background:#fff;cursor:pointer}
+.btn.small{padding:6px 8px;font-size:0.9rem}
+.btn.danger{background:#ffb3b3}
 
-.page.active {
-  display: block;
-}
+/* emoji animation (from bottom to center) */
+.emoji{position:fixed;left:50%;transform:translateX(-50%);bottom:-120px;font-size:3.2rem;opacity:0;z-index:9999;transition:all .35s ease}
+.emoji.show{bottom:40%;opacity:1;animation:emojiPop 2s ease forwards}
+@keyframes emojiPop{0%{transform:translate(-50%,50%) scale(.5);opacity:0}30%{transform:translate(-50%,0) scale(1.25);opacity:1;filter:brightness(1.4)}100%{transform:translate(-50%,0) scale(1);opacity:0}}
 
+/* simple utilities */
+.row{display:flex;gap:8px;align-items:center;justify-content:center}
+.note{color:var(--muted);font-size:0.9rem;margin-top:12px}
+.prices-viewer{display:flex;flex-direction:column;gap:8px}
+.admin-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
