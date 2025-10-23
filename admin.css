@@ -1,116 +1,237 @@
-/* === TEMA ADMIN (BIRU LAUT - BIRU LANGIT) === */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-:root {
-  --bg-gradient: linear-gradient(135deg, #0093E9, #80D0C7);
-  --text-color: #fff;
-  --card-bg: rgba(255, 255, 255, 0.15);
-  --accent: #6de0ff;
-}
-
-* {
+/* === Style Mode Admin === */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-body {
-  background: var(--bg-gradient);
-  color: var(--text-color);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  transition: background 0.8s ease;
-}
-
-header {
-  width: 100%;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, rgba(0, 160, 255, 0.3), rgba(0, 240, 255, 0.3));
+  backdrop-filter: blur(10px);
+  color: #fff;
   text-align: center;
-  margin-top: 20px;
-  position: relative;
+  transition: background 1s ease, color 1s ease;
 }
 
-h1 {
-  font-size: 2.2rem;
+/* === Header === */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+#title {
+  font-size: 1.5rem;
   font-weight: 600;
+  color: #e9f6ff;
   cursor: pointer;
-  user-select: none;
+}
+
+#logoutBtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #00334d;
+  cursor: pointer;
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  left: 15px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--card-bg);
-  margin: 15px auto;
+  background: rgba(255,255,255,0.6);
+  overflow: hidden;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
+
+/* === Main === */
+main {
+  padding-top: 90px;
 }
 
 .main-image {
-  width: 80%;
-  height: 200px;
-  background-color: var(--card-bg);
+  width: 100%;
+  height: 220px;
+  background: rgba(255,255,255,0.2);
   border-radius: 20px;
-  margin: 10px auto;
-  background-size: cover;
-  background-position: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  position: relative;
 }
 
+/* === Menu === */
 .menu {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 20px 0;
+  margin-bottom: 25px;
 }
 
 .menu button {
-  background: var(--card-bg);
-  color: var(--text-color);
+  background: rgba(255,255,255,0.2);
   border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
+  border-radius: 15px;
+  padding: 10px 18px;
+  font-size: 1rem;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: transform 0.2s, background 0.3s;
+  color: #e9faff;
+  transition: all 0.3s ease;
 }
 
 .menu button:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.35);
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  width: 85%;
-  margin-bottom: 40px;
+/* === Halaman === */
+.page {
+  display: none;
+  animation: fadeIn 0.5s ease;
 }
 
-.gallery-item {
-  background: var(--card-bg);
-  border-radius: 15px;
-  padding: 10px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 0 10px rgba(255,255,255,0.15);
+.page.active {
+  display: block;
 }
 
-.gallery-item img {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Popup === */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-radius: 10px;
-  transition: transform 0.3s;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 
-.gallery-item img:hover {
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  width: 260px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  color: #00334d;
+}
+
+/* === Emot === */
+.emoji {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  opacity: 0;
+  transition: all 0.6s ease;
+  z-index: 3000;
+}
+
+.emoji.show {
+  bottom: 40%;
+  opacity: 1;
+  animation: emojiShine 2s ease forwards;
+}
+
+@keyframes emojiShine {
+  0% {
+    transform: translate(-50%, 50%) scale(0.5);
+    opacity: 0;
+    filter: brightness(1);
+  }
+  30% {
+    transform: translate(-50%, 0) scale(1.3);
+    opacity: 1;
+    filter: brightness(2);
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+/* === Galeri === */
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
+#gallery img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#gallery img:hover {
   transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* === Tombol Tambah Karya === */
+#addArtworkBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  color: #002f4f;
+}
+
+/* === Transisi Halus Antar Halaman === */
+.page {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* === Utility === */
+.hidden {
+  display: none;
+}  transform: scale(1.05);
 }
 
 .copy-btn {
