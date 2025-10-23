@@ -1,82 +1,151 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mita's Commission</title>
-  <!-- tema awal -->
-  <link rel="stylesheet" href="style.css" id="theme-style">
+
+  <!-- default theme (pembeli) -->
+  <link id="theme-style" rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <h1 id="title">Mita's Commission</h1>
+    <h1 id="siteTitle">Mita's Commission</h1>
     <button id="logoutBtn" class="hidden">Logout</button>
-    <div class="profile-pic" id="profilePic"></div>
+    <div id="profileCircle" class="profile-circle" title="Klik (admin saja)"></div>
   </header>
 
   <main>
-    <section class="main-image" id="mainImage"></section>
-
-    <nav class="menu">
-      <button id="tokokuBtn">Tokoku</button>
-      <button id="priceBtn">Price List</button>
-      <button id="commissionBtn">Commission Done</button>
-      <button id="akunBtn">Akun</button>
-    </nav>
-
-    <!-- Halaman Tokoku -->
-    <section id="tokokuPage" class="page hidden">
-      <h2>Tokoku</h2>
-      <p>Hubungi aku lewat WhatsApp ya!</p>
-      <a id="waLink" href="#" target="_blank">Chat Sekarang</a>
-    </section>
-
-    <!-- Halaman Price List -->
-    <section id="pricePage" class="page hidden">
-      <h2>Price List</h2>
-      <div id="priceList">
-        <!-- kamu isi sendiri harga di sini -->
+    <!-- welcome image (editable by admin only) -->
+    <section id="homeSection" class="page active">
+      <div id="welcomeBox" class="welcome-box">
+        <div class="welcome-placeholder">Klik admin → upload untuk pasang gambar welcome</div>
       </div>
     </section>
 
-    <!-- Halaman Commission Done -->
-    <section id="commissionPage" class="page hidden">
-      <h2>Commission Done</h2>
-      <div id="gallery"></div>
-      <button id="addArtworkBtn" class="hidden">+</button>
+    <!-- menu buttons -->
+    <nav class="main-menu">
+      <button id="btnTokoku">Chat Saya!</button>
+      <button id="btnPrices">Prices List</button>
+      <button id="btnCommission">Commission Done</button>
+      <button id="btnAkun">Akun (IG/TikTok/YouTube)</button>
+    </nav>
+
+    <!-- Tokoku page -->
+    <section id="tokokuPage" class="page hidden">
+      <h2>Tokoku — Chat Saya</h2>
+      <p>Klik tombol untuk chat lewat WhatsApp.</p>
+      <a id="waLink" href="#" target="_blank" rel="noopener" class="cta">Chat Sekarang</a>
     </section>
 
-    <!-- Halaman Akun -->
+    <!-- Prices page (viewer) -->
+    <section id="pricesPage" class="page hidden">
+      <h2>Prices List</h2>
+      <div id="pricesViewer" class="prices-viewer"></div>
+      <div class="note">(Publik hanya melihat; admin bisa edit di admin mode)</div>
+    </section>
+
+    <!-- Commission page -->
+    <section id="commissionPage" class="page hidden">
+      <h2>Commission Done</h2>
+      <div id="commissionControls" class="admin-controls hidden">
+        <button id="addArtworkBtn" class="round-add">+</button>
+      </div>
+      <div id="gallery" class="gallery"></div>
+      <div class="note">Tekan dan tahan gambar 3 detik untuk meminta sandi download.</div>
+    </section>
+
+    <!-- Akun page -->
     <section id="akunPage" class="page hidden">
       <h2>Akun</h2>
-      <p>Pilih akun yang ingin kamu kunjungi:</p>
-      <button id="igBtn">Instagram</button>
-      <button id="tiktokBtn">TikTok</button>
-      <button id="ytBtn">YouTube</button>
+      <p>Pilih akun yang ingin dikunjungi:</p>
+      <div class="akun-buttons">
+        <button id="openIGBtn">Instagram</button>
+        <button id="openTTBtn">TikTok</button>
+        <button id="openYTBtn">YouTube</button>
+      </div>
     </section>
   </main>
 
-  <!-- Popup Password -->
-  <div id="passwordPopup" class="popup hidden">
-    <div class="popup-content">
+  <!-- Popup: admin password -->
+  <div id="adminPassPopup" class="popup hidden">
+    <div class="popup-card blur-card">
       <p>Masukkan password admin:</p>
-      <input type="password" id="adminPassword" placeholder="Password..." />
-      <button id="loginBtn">Masuk</button>
+      <input id="adminPassInput" type="password" placeholder="Password..." />
+      <div style="margin-top:10px">
+        <button id="adminPassOk">Masuk</button>
+        <button id="adminPassCancel">Batal</button>
+      </div>
     </div>
   </div>
 
-  <!-- Popup Download -->
+  <!-- Popup: download password -->
   <div id="downloadPopup" class="popup hidden">
-    <div class="popup-content blur">
+    <div class="popup-card blur-card">
       <p>Masukkan sandi untuk download:</p>
-      <input type="password" id="downloadPassword" placeholder="Sandi..." />
-      <button id="confirmDownloadBtn">Download</button>
-      <button id="cancelDownloadBtn">Batal</button>
+      <input id="downloadInput" type="password" placeholder="Sandi..." />
+      <div style="margin-top:10px">
+        <button id="downloadConfirm">Download</button>
+        <button id="downloadCancel">Batal</button>
+      </div>
     </div>
   </div>
 
-  <!-- Emot animasi -->
+  <!-- Admin panel modal (in-page) -->
+  <div id="adminPanel" class="popup hidden">
+    <div class="popup-card blur-card admin-panel">
+      <h3>Admin Panel 🔧</h3>
+
+      <section>
+        <strong>Profile & Welcome</strong>
+        <div class="row">
+          <input id="uploadProfileInput" type="file" accept="image/*" />
+          <label for="uploadProfileInput" class="btn small">Upload Profile</label>
+
+          <input id="uploadWelcomeInput" type="file" accept="image/*" />
+          <label for="uploadWelcomeInput" class="btn small">Upload Welcome</label>
+        </div>
+      </section>
+
+      <hr>
+
+      <section>
+        <strong>Prices (Admin)</strong>
+        <div class="row" style="gap:8px;margin-top:8px">
+          <input id="priceTitleInput" placeholder="Judul/layanan" />
+          <input id="priceDescInput" placeholder="Deskripsi (kosong dulu)"/>
+          <input id="priceImageInput" type="file" accept="image/*" />
+          <label for="priceImageInput" class="btn small">Upload Gambar</label>
+          <button id="priceAddBtn" class="btn small">Tambah</button>
+        </div>
+        <div id="pricesAdminList" class="admin-list"></div>
+      </section>
+
+      <hr>
+
+      <section>
+        <strong>Gallery (Admin)</strong>
+        <div style="margin-top:8px" class="row">
+          <input id="galleryUploadInput" type="file" accept="image/*" multiple />
+          <label for="galleryUploadInput" class="btn small">Upload Karya (+)</label>
+        </div>
+        <div id="adminGalleryList" class="admin-list" style="margin-top:10px"></div>
+      </section>
+
+      <hr>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+        <button id="closeAdminPanel" class="btn">Tutup</button>
+        <button id="logoutAdminBtn" class="btn danger">Logout Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- small helpers (hidden file inputs used by JS: not necessary visually) -->
+  <input id="hiddenGalleryInput" type="file" accept="image/*" multiple style="display:none" />
+
+  <!-- emoji animation -->
   <div id="emoji" class="emoji"></div>
 
   <script src="script.js"></script>
