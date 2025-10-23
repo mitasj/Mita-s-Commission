@@ -1,116 +1,203 @@
-// Ambil elemen penting
-const title = document.getElementById('title');
-const passwordPopup = document.getElementById('passwordPopup');
-const loginBtn = document.getElementById('loginBtn');
-const adminPasswordInput = document.getElementById('adminPassword');
-const emoji = document.getElementById('emoji');
-const logoutBtn = document.getElementById('logoutBtn');
-const themeLink = document.getElementById('theme-style');
-const gallery = document.getElementById('gallery');
+// === ELEMENT UTAMA ===
+const title = document.getElementById("title");
+const themeLink = document.getElementById("theme-style");
+const emoji = document.getElementById("emoji");
+const logoutBtn = document.getElementById("logoutBtn");
+const addBtn = document.getElementById("addArtworkBtn");
+const gallery = document.getElementById("gallery");
 
+const pages = {
+  tokoku: document.getElementById("tokokuPage"),
+  price: document.getElementById("pricePage"),
+  commission: document.getElementById("commissionPage"),
+  akun: document.getElementById("akunPage")
+};
+
+const menuBtns = {
+  tokoku: document.getElementById("tokokuBtn"),
+  price: document.getElementById("priceBtn"),
+  commission: document.getElementById("commissionBtn"),
+  akun: document.getElementById("akunBtn")
+};
+
+// === POPUP PASSWORD ADMIN ===
+const passwordPopup = document.getElementById("passwordPopup");
+const adminPassword = document.getElementById("adminPassword");
+const loginBtn = document.getElementById("loginBtn");
+
+const downloadPopup = document.getElementById("downloadPopup");
+const downloadPassword = document.getElementById("downloadPassword");
+const confirmDownloadBtn = document.getElementById("confirmDownloadBtn");
+const cancelDownloadBtn = document.getElementById("cancelDownloadBtn");
+
+// === DATA ===
 let clickCount = 0;
 let isAdmin = false;
-let galleryData = [];
-let randomCodes = {};
-let codeTimers = {};
+let artworks = JSON.parse(localStorage.getItem("artworks")) || [];
+let currentDownload = null;
+let downloadCodes = {};
 
-// === FUNGSI EMOJI ANIMASI ===
-function showEmoji(face, transformColor = false, callback = null) {
-  emoji.textContent = face;
-  emoji.classList.add('show');
-
-  // Kalau harus ganti tema bersamaan
-  if (transformColor) {
-    setTimeout(() => {
-      themeLink.setAttribute('href', 'admin.css');
-    }, 500);
-  }
-
-  // Hapus setelah 5 detik
-  setTimeout(() => {
-    emoji.classList.remove('show');
-    if (callback) callback();
-  }, 5000);
-}
-
-// === MODE PEMBELI ===
-function setToUserMode() {
-  isAdmin = false;
-  logoutBtn.style.display = 'none';
-  themeLink.setAttribute('href', 'style.css');
-  showEmoji('😎');
-  setTimeout(() => showEmoji('😄', false, null), 600);
+// === FUNGSI GANTI HALAMAN ===
+function showPage(page) {
+  Object.values(pages).forEach(p => p.classList.add("hidden"));
+  pages[page].classList.remove("hidden");
 }
 
 // === MODE ADMIN ===
-function setToAdminMode() {
-  isAdmin = true;
-  logoutBtn.style.display = 'block';
-  showEmoji('😄', true, () => showEmoji('😎'));
+function switchToAdmin() {
+  emoji.textContent = "😄";
+  emoji.classList.add("show");
+
+  setTimeout(() => {
+    emoji.textContent = "😎";
+    emoji.style.filter = "drop-shadow(0 0 10px #00f2ff)";
+    themeLink.href = "admin.css";
+    logoutBtn.classList.remove("hidden");
+    addBtn.classList.remove("hidden");
+    isAdmin = true;
+  }, 800);
+
+  setTimeout(() => {
+    emoji.classList.remove("show");
+  }, 2500);
 }
 
-// === BUKA POPUP PASSWORD ===
-title.addEventListener('click', () => {
-  clickCount++;
-  if (clickCount === 3) {
-    passwordPopup.classList.remove('hidden');
-    clickCount = 0;
-  }
-  setTimeout(() => (clickCount = 0), 800);
-});
+// === MODE PEMBELI ===
+function switchToBuyer() {
+  emoji.textContent = "😎";
+  emoji.classList.add("show");
+
+  setTimeout(() => {
+    emoji.textContent = "😄";
+    emoji.style.filter = "none";
+    themeLink.href = "style.css";
+    logoutBtn.classList.add("hidden");
+    addBtn.classList.add("hidden");
+    isAdmin = false;
+  }, 800);
+
+  setTimeout(() => {
+    emoji.classList.remove("show");
+  }, 2500);
+}
 
 // === LOGIN ADMIN ===
-loginBtn.addEventListener('click', () => {
-  const pass = adminPasswordInput.value;
-  if (pass === 'Mita_sj17') {
-    passwordPopup.classList.add('hidden');
-    adminPasswordInput.value = '';
-    setToAdminMode();
-  } else {
-    passwordPopup.classList.add('hidden');
-    adminPasswordInput.value = '';
-    showEmoji('😜');
+title.addEventListener("click", () => {
+  clickCount++;
+  if (clickCount === 3) {
+    passwordPopup.classList.remove("hidden");
+    clickCount = 0;
   }
 });
 
-// === LOGOUT ===
-logoutBtn.addEventListener('click', () => {
-  themeLink.setAttribute('href', 'style.css');
-  showEmoji('😎', false, () => showEmoji('😄'));
-  logoutBtn.style.display = 'none';
-  isAdmin = false;
+loginBtn.addEventListener("click", () => {
+  if (adminPassword.value === "Mita_sj17") {
+    passwordPopup.classList.add("hidden");
+    adminPassword.value = "";
+    switchToAdmin();
+  } else {
+    emoji.textContent = "😜";
+    emoji.classList.add("show");
+    setTimeout(() => emoji.classList.remove("show"), 1500);
+  }
 });
 
-// === BUAT KODE RANDOM ===
-function generateRandomCode() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let code = '';
-  for (let i = 0; i < 8; i++) {
+// === LOGOUT ADMIN ===
+logoutBtn.addEventListener("click", () => {
+  switchToBuyer();
+});
+
+// === MENU NAVIGASI ===
+Object.entries(menuBtns).forEach(([key, btn]) => {
+  btn.addEventListener("click", () => showPage(key));
+});
+
+// === TAMBAH KARYA ===
+addBtn.addEventListener("click", () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imgData = reader.result;
+        const id = Date.now();
+        artworks.push({ id, img: imgData });
+        localStorage.setItem("artworks", JSON.stringify(artworks));
+        renderGallery();
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+});
+
+// === RENDER GALERI ===
+function renderGallery() {
+  gallery.innerHTML = "";
+  artworks.forEach((art) => {
+    const img = document.createElement("img");
+    img.src = art.img;
+
+    // Tekan 3-5 detik → popup sandi
+    let pressTimer;
+    img.addEventListener("mousedown", () => {
+      pressTimer = setTimeout(() => {
+        currentDownload = art.id;
+        downloadPopup.classList.remove("hidden");
+      }, 3000);
+    });
+    img.addEventListener("mouseup", () => clearTimeout(pressTimer));
+    img.addEventListener("mouseleave", () => clearTimeout(pressTimer));
+
+    gallery.appendChild(img);
+  });
+}
+renderGallery();
+
+// === DOWNLOAD DENGAN SANDI ===
+confirmDownloadBtn.addEventListener("click", () => {
+  const entered = downloadPassword.value;
+  const validCode = downloadCodes[currentDownload];
+  if (entered === validCode) {
+    const art = artworks.find(a => a.id === currentDownload);
+    const link = document.createElement("a");
+    link.href = art.img;
+    link.download = "MitaCommission_" + currentDownload + ".png";
+    link.click();
+    downloadPopup.classList.add("hidden");
+    downloadPassword.value = "";
+  } else {
+    alert("Sandi salah!");
+  }
+});
+
+// === TUTUP POPUP DOWNLOAD ===
+cancelDownloadBtn.addEventListener("click", () => {
+  downloadPopup.classList.add("hidden");
+});
+
+// === GENERATOR SANDI ACAK ===
+function generateCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 6; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return code;
 }
 
-// === TAMBAH GAMBAR (ADMIN) ===
-function addImage(url) {
-  const id = Date.now().toString();
-  const code = generateRandomCode();
-  galleryData.push({ id, url });
-  randomCodes[id] = code;
-  refreshGallery();
-  startCodeTimer(id);
+// === BUAT SANDI BARU SETIAP 10 MENIT ===
+function refreshCodes() {
+  artworks.forEach(a => {
+    const code = generateCode();
+    downloadCodes[a.id] = code;
+  });
 }
-
-// === TIMER UBAH SANDI 10 MENIT ===
-function startCodeTimer(id) {
-  if (codeTimers[id]) clearInterval(codeTimers[id]);
-  codeTimers[id] = setInterval(() => {
-    randomCodes[id] = generateRandomCode();
-    refreshGallery();
-  }, 10 * 60 * 1000);
-}
-
-// === REFRESH GALERI ===
+refreshCodes();
+setInterval(refreshCodes, 10 * 60 * 1000); // setiap 10 menit// === REFRESH GALERI ===
 function refreshGallery() {
   gallery.innerHTML = '';
   galleryData.forEach(item => {
