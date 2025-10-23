@@ -1,116 +1,225 @@
-/* === TEMA PEMBELI (UNGU - PINK) === */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-:root {
-  --bg-gradient: linear-gradient(135deg, #c471ed, #f64f59);
-  --text-color: #fff;
-  --card-bg: rgba(255, 255, 255, 0.1);
-  --accent: #ffb6f9;
-}
-
-* {
+/* === Style Umum === */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-body {
-  background: var(--bg-gradient);
-  color: var(--text-color);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  transition: background 0.8s ease;
-}
-
-header {
-  width: 100%;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+  backdrop-filter: blur(10px);
+  color: #333;
   text-align: center;
-  margin-top: 20px;
-  position: relative;
+  transition: background 1s ease, color 1s ease;
 }
 
-h1 {
-  font-size: 2.2rem;
+/* === Header === */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+#title {
+  font-size: 1.6rem;
   font-weight: 600;
+  color: #2c2c2c;
   cursor: pointer;
-  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+#title:active {
+  transform: scale(0.95);
+}
+
+#logoutBtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  left: 15px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--card-bg);
-  margin: 15px auto;
+  background: rgba(255,255,255,0.7);
+  overflow: hidden;
   background-size: cover;
   background-position: center;
+  cursor: pointer;
+}
+
+/* === Main === */
+main {
+  padding-top: 90px;
 }
 
 .main-image {
-  width: 80%;
+  width: 100%;
   height: 200px;
-  background-color: var(--card-bg);
+  background: rgba(255,255,255,0.3);
   border-radius: 20px;
-  margin: 10px auto;
-  background-size: cover;
-  background-position: center;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
 }
 
+/* === Menu === */
 .menu {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 20px 0;
+  margin-bottom: 25px;
 }
 
 .menu button {
-  background: var(--card-bg);
-  color: var(--text-color);
+  background: rgba(255,255,255,0.4);
   border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
+  border-radius: 15px;
+  padding: 10px 18px;
+  font-size: 1rem;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: transform 0.2s, background 0.3s;
+  transition: all 0.3s ease;
 }
 
 .menu button:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.6);
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  width: 85%;
-  margin-bottom: 40px;
+/* === Halaman === */
+.page {
+  display: none;
+  animation: fadeIn 0.5s ease;
 }
 
-.gallery-item {
-  background: var(--card-bg);
-  border-radius: 15px;
-  padding: 10px;
-  text-align: center;
-  position: relative;
+.page.active {
+  display: block;
 }
 
-.gallery-item img {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Popup === */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-radius: 10px;
-  transition: transform 0.3s;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 
-.gallery-item img:hover {
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  width: 260px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* === Emot === */
+.emoji {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  opacity: 0;
+  transition: all 0.6s ease;
+  z-index: 3000;
+}
+
+.emoji.show {
+  bottom: 40%;
+  opacity: 1;
+  animation: emojiPop 2s ease forwards;
+}
+
+@keyframes emojiPop {
+  0% { transform: translate(-50%, 50%) scale(0.5); opacity: 0; }
+  30% { transform: translate(-50%, 0) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, 0) scale(1); opacity: 0; }
+}
+
+/* === Galeri === */
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
+#gallery img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#gallery img:hover {
   transform: scale(1.05);
+  opacity: 0.9;
 }
 
-.copy-btn {
+/* === Tombol Tambah Karya === */
+#addArtworkBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(6px);
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* === Transisi Halus Antar Halaman === */
+.page {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* === Utility === */
+.hidden {
+  display: none;
+}.copy-btn {
   background: var(--accent);
   color: #333;
   border: none;
